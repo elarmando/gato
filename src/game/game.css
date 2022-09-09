@@ -63,3 +63,10 @@
     background-image: url("../img/o.png");
 }
 
+.game-stats{
+    position: absolute;
+    height: 200px;
+    width:150px;
+    background-color: black;
+    color:chartreuse;
+}

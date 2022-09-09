@@ -3,58 +3,50 @@ import "./game.css"
 import Board from "../game-logic/board"
 import Cell from "./cell"
 
-export default class Game extends React.Component
+export default function Game() 
 {
-    constructor()
-    {
-        super();
-        this.state = {
-            board : new Board()
-        };
-    }
+    const [board, setBoard] = React.useState(new Board());
 
-    onClick(row, col)
-    {
-        if(this.state.board.isFinished())
-            return;
-            
-        var copyBoard = this.state.board.copy();
-        copyBoard.play(row, col);
-
-        this.setState({board: copyBoard});
-    }
-
-    componentDidUpdate()
-    {
-        if(this.state.board.isFinished())
+    React.useEffect(()=>{
+        if(board.isFinished())
         {
             alert("finished");
         }
+    });
+
+    const onClick = (row, col) =>
+    {
+        if(board.isFinished())
+            return;
+            
+        var copyBoard = board.copy();
+        copyBoard.play(row, col);
+
+        setBoard(copyBoard);
     }
 
-    renderCell(rowIndex, colIndex)
+    const renderCell = (rowIndex, colIndex) =>
     {
         return <Cell row={rowIndex + 1} 
                      col={colIndex + 1} 
-                     symbol={this.state.board.getSymbol(rowIndex, colIndex)}
-                     click={()=> this.onClick(rowIndex, colIndex)}
+                     symbol={board.getSymbol(rowIndex, colIndex)}
+                     click={()=> onClick(rowIndex, colIndex)}
                      />;
     }
     
-    render()
-    {
-        return <div className="game">
-                    {this.renderCell(0, 0)}
-                    {this.renderCell(0, 1)}
-                    {this.renderCell(0, 2)}
+    return <div className="game">
+      
+        {renderCell(0, 0)}
+        {renderCell(0, 1)}
+        {renderCell(0, 2)}
 
-                    {this.renderCell(1, 0)}
-                    {this.renderCell(1, 1)}
-                    {this.renderCell(1, 2)}
+        {renderCell(1, 0)}
+        {renderCell(1, 1)}
+        {renderCell(1, 2)}
 
-                    {this.renderCell(2, 0)}
-                    {this.renderCell(2, 1)}
-                    {this.renderCell(2, 2)}
-                </div>;
-    }
+        {renderCell(2, 0)}
+        {renderCell(2, 1)}
+        {renderCell(2, 2)}
+    </div>;
+
 }
